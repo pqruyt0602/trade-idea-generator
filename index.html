@@ -1,49 +1,42 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07111b"><link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png"><title>交易點子生成器 V2</title>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111b"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><title>交易點子生成器 V3</title>
 <style>
 :root{--bg:#07111b;--card:#0f1b28;--card2:#142335;--line:#24384e;--text:#eef6ff;--muted:#91a9bf;--blue:#28a9ff;--green:#43dc91;--red:#ff6f7d;--amber:#ffd166}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#06101a,#09131e);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}.wrap{max-width:980px;margin:auto;padding:18px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:5px 0 18px}h1{font-size:26px;margin:0}.muted{color:var(--muted)}.ver{font-size:12px;border:1px solid var(--line);padding:7px 10px;border-radius:99px;color:#7dd3fc}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#06101a,#09131e);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}.wrap{max-width:1050px;margin:auto;padding:18px}
+header{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:5px 0 16px}h1{font-size:26px;margin:0}.muted{color:var(--muted)}.ver{font-size:12px;border:1px solid var(--line);padding:7px 10px;border-radius:99px;color:#7dd3fc}
 .panel,.idea{background:rgba(15,27,40,.96);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px}.grid{display:grid;grid-template-columns:1.3fr .8fr .8fr .7fr;gap:9px}
-label{font-size:11px;color:var(--muted);display:block;margin-bottom:5px}input,select,button{width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:#0a1521;color:var(--text);font-size:14px}
-button{font-weight:850;cursor:pointer}.primary{border:0;background:linear-gradient(120deg,#16a9ed,#2563eb)}.secondary{background:#152437}.actions{display:grid;grid-template-columns:1fr 180px;gap:9px;margin-top:10px}
-.market{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0}.stat{padding:12px;border-radius:14px;background:var(--card2);border:1px solid var(--line)}.stat span{font-size:11px;color:var(--muted)}.stat b{display:block;margin-top:3px}
-#status{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}.spinner{display:none;margin:22px auto;width:38px;height:38px;border:4px solid #1b3145;border-top-color:#38bdf8;border-radius:50%;animation:s 1s linear infinite}@keyframes s{to{transform:rotate(360deg)}}
-.top{display:flex;justify-content:space-between;align-items:center}.name{font-size:18px;font-weight:900}.long{color:var(--green)}.short{color:var(--red)}.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}.lv{background:#091520;border:1px solid #1d3042;border-radius:10px;padding:9px}.lv small{display:block;color:var(--muted);font-size:10px}.lv b{font-size:14px}
-.score{height:7px;background:#172a3b;border-radius:99px;overflow:hidden;margin-top:8px}.score i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#38bdf8);width:0}.reason{font-size:13px;line-height:1.65;color:#d6e1eb}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.tag{font-size:10px;background:#17283a;padding:5px 8px;border-radius:99px;color:#b9cde0}
-.empty{text-align:center;padding:34px 15px;color:var(--muted)}.warning{font-size:11px;line-height:1.55;color:#9db0c2;padding:11px;border:1px solid var(--line);border-radius:12px;background:#0c1722}
-@media(max-width:720px){.grid{grid-template-columns:1fr 1fr}.market{grid-template-columns:1fr 1fr}.levels{grid-template-columns:1fr 1fr}.actions{grid-template-columns:1fr}header{align-items:flex-start}}
+label{font-size:11px;color:var(--muted);display:block;margin-bottom:5px}input,select,button{width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:#0a1521;color:var(--text);font-size:14px}button{font-weight:850;cursor:pointer}.primary{border:0;background:linear-gradient(120deg,#16a9ed,#2563eb)}.secondary{background:#152437}
+.actions{display:grid;grid-template-columns:1fr 180px;gap:9px;margin-top:10px}.market{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0}.stat{padding:12px;border-radius:14px;background:var(--card2);border:1px solid var(--line)}.stat span{font-size:11px;color:var(--muted)}.stat b{display:block;margin-top:3px}
+#status{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}.top{display:flex;justify-content:space-between;gap:10px}.name{font-size:18px;font-weight:900}.long{color:var(--green)}.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}.lv{background:#091520;border:1px solid #1d3042;border-radius:10px;padding:9px}.lv small{display:block;color:var(--muted);font-size:10px}.lv b{font-size:14px}.reason{font-size:13px;line-height:1.65;color:#d6e1eb}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.tag{font-size:10px;background:#17283a;padding:5px 8px;border-radius:99px;color:#b9cde0}.bar{height:7px;background:#172a3b;border-radius:99px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#38bdf8)}.empty{text-align:center;padding:30px;color:var(--muted)}.warn{font-size:11px;color:#9db0c2;line-height:1.55}
+@media(max-width:720px){.grid{grid-template-columns:1fr 1fr}.market{grid-template-columns:1fr 1fr}.levels{grid-template-columns:1fr 1fr}.actions{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
-<header><div><h1>交易點子生成器</h1><div class="muted">V2 · 掃描 → 評分 → 交易計畫</div></div><div class="ver">PWA V2</div></header>
-<div class="panel">
-<div class="grid">
-<div><label>掃描範圍</label><input id="scope" value="全台股" placeholder="全台股 / 半導體 / 2330"></div>
-<div><label>市場</label><select id="market"><option>台股</option><option>美股</option><option>加密貨幣</option></select></div>
-<div><label>週期</label><select id="period"><option>短波段 2–10日</option><option>當沖</option><option>波段 2–8週</option></select></div>
-<div><label>最低 R:R</label><select id="rr"><option>2.0</option><option>2.5</option><option>3.0</option></select></div>
-</div>
-<div class="actions"><button class="primary" onclick="scan()">🔍 掃描今日市場</button><button class="secondary" onclick="save()">☆ 收藏本次條件</button></div>
-<div id="status">V2 已改成直接顯示交易卡片。尚未設定資料 API 時會進入「資料源設定」狀態，不會捏造即時行情。</div>
-</div>
-<div class="market"><div class="stat"><span>輸出</span><b>5 個候選</b></div><div class="stat"><span>最低風報比</span><b id="rrs">2.0</b></div><div class="stat"><span>模型</span><b>技術＋基本</b></div><div class="stat"><span>原則</span><b>先風控</b></div></div>
-<div class="spinner" id="spin"></div><div id="results"><div class="panel empty">按「掃描今日市場」開始。<br>下一階段接上行情 API 後，這裡會直接出現 5 張交易機會卡。</div></div>
-<div class="warning">此工具用於整理市場資訊與交易計畫，不保證勝率或報酬。進場區、停損與目標價必須以可靠的最新行情計算；若資料源未連線，系統不產生虛構價位。</div>
-</div>
-<script>
-const $=id=>document.getElementById(id);
-function save(){localStorage.setItem('tradePrefs',JSON.stringify({scope:$('scope').value,market:$('market').value,period:$('period').value,rr:$('rr').value}));$('status').textContent='已收藏這組掃描條件到手機。'}
-function load(){try{let p=JSON.parse(localStorage.getItem('tradePrefs'));if(p){Object.keys(p).forEach(k=>$(k)&&($(k).value=p[k]))}}catch(e){} $('rrs').textContent=$('rr').value}
-async function scan(){
- $('rrs').textContent=$('rr').value;$('spin').style.display='block';$('results').innerHTML='';$('status').textContent='正在檢查市場資料來源…';
- await new Promise(r=>setTimeout(r,650));$('spin').style.display='none';
- $('results').innerHTML=`<div class="panel"><div class="top"><div><div class="name">需要接上行情 API</div><div class="muted">前端 V2 已完成；目前不以假資料產生 5 檔。</div></div><b style="color:var(--amber)">SETUP</b></div>
- <div class="reason" style="margin-top:12px">下一步只差資料層：取得上市/上櫃股票清單、OHLCV 歷史行情、最新成交價與基本面資料，再由瀏覽器或後端計算均線、量能、ATR、支撐壓力與 R:R，最後把前 5 名填進交易卡。</div>
- <div class="tags"><span class="tag">OHLCV</span><span class="tag">MA20/60</span><span class="tag">成交量</span><span class="tag">ATR</span><span class="tag">基本面</span></div></div>`;
- $('status').textContent='V2 介面正常。資料 API 尚未連線，因此沒有產生虛構的今日進場價。';
-}
-$('rr').addEventListener('change',()=> $('rrs').textContent=$('rr').value);
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
-load();
+<header><div><h1>交易點子生成器</h1><div class="muted">V3 · TWSE 市場掃描核心</div></div><div class="ver">V3</div></header>
+<div class="panel"><div class="grid">
+<div><label>掃描範圍</label><input id="scope" value="全上市"></div>
+<div><label>市場</label><select id="market"><option>台股上市</option></select></div>
+<div><label>週期</label><select id="period"><option>短波段 2–10日</option><option>波段 2–8週</option></select></div>
+<div><label>最低 R:R</label><select id="rr"><option>2.0</option><option>2.5</option><option>3.0</option></select></div></div>
+<div class="actions"><button class="primary" onclick="scan()">🔍 掃描最新上市行情</button><button class="secondary" onclick="save()">☆ 收藏條件</button></div><div id="status">準備就緒。V3 會嘗試直接讀取 TWSE OpenAPI 的最新上市日行情。</div></div>
+<div class="market"><div class="stat"><span>資料源</span><b>TWSE</b></div><div class="stat"><span>候選</span><b>Top 5</b></div><div class="stat"><span>最低 R:R</span><b id="rrs">2.0</b></div><div class="stat"><span>模式</span><b>量價初篩</b></div></div>
+<div id="results"><div class="panel empty">按「掃描最新上市行情」開始。</div></div>
+<div class="panel warn">V3 使用公開市場資料做量價初篩，並以當日高低區間估算波動停損與目標；這不是完整歷史技術指標回測，也不代表「高勝率」。若 TWSE 阻擋瀏覽器跨來源存取，畫面會明確提示，不會產生假行情。下一階段可加後端代理與多日 OHLCV，計算 MA20/60、ATR14、突破/回測及基本面評分。</div>
+</div><script>
+const $=x=>document.getElementById(x);
+const API='https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL';
+const n=v=>{let x=parseFloat(String(v??'').replace(/,/g,''));return Number.isFinite(x)?x:null};
+const fmt=x=>x==null?'—':(x>=1000?x.toLocaleString('zh-TW',{maximumFractionDigits:2}):x.toFixed(2).replace(/\.00$/,''));
+function save(){localStorage.setItem('v3prefs',JSON.stringify({scope:$('scope').value,period:$('period').value,rr:$('rr').value}));$('status').textContent='已收藏條件。'}
+function normalize(r){return {code:r.Code||r.證券代號||r.StockNo,name:r.Name||r.證券名稱||'',close:n(r.ClosingPrice||r.收盤價),open:n(r.OpeningPrice||r.開盤價),high:n(r.HighestPrice||r.最高價),low:n(r.LowestPrice||r.最低價),vol:n(r.TradeVolume||r.成交股數),date:r.Date||r.日期||''}}
+function score(x){let range=(x.high-x.low),pos=range>0?(x.close-x.low)/range:.5,chg=x.open?x.close/x.open-1:0;let s=45+pos*30+Math.max(-10,Math.min(15,chg*500));if(x.vol>1000000)s+=5;if(x.vol>5000000)s+=5;return Math.max(0,Math.min(100,Math.round(s)))}
+function card(x,i){let risk=Math.max((x.high-x.low)*.65,x.close*.012);let entryLo=x.close-risk*.18,entryHi=x.close+risk*.12,stop=x.close-risk,target1=x.close+risk*parseFloat($('rr').value),target2=x.close+risk*(parseFloat($('rr').value)+1);let sc=score(x);
+return `<div class="idea"><div class="top"><div><div class="name">${i}. ${x.code} ${x.name}</div><div class="muted">資料日期 ${x.date||'最新交易日'} · 成交量 ${x.vol?Math.round(x.vol/1000).toLocaleString()+' 張':'—'}</div></div><b class="long">偏多觀察</b></div>
+<div class="levels"><div class="lv"><small>進場區</small><b>${fmt(entryLo)}–${fmt(entryHi)}</b></div><div class="lv"><small>停損</small><b>${fmt(stop)}</b></div><div class="lv"><small>目標①</small><b>${fmt(target1)}</b></div><div class="lv"><small>目標②</small><b>${fmt(target2)}</b></div><div class="lv"><small>最低 R:R</small><b>1:${$('rr').value}</b></div></div>
+<div class="reason"><b>量價初篩分數 ${sc}/100</b><div class="bar"><i style="width:${sc}%"></i></div>收盤位於當日區間的 ${Math.round(((x.close-x.low)/(x.high-x.low||1))*100)}% 位置；本版優先保留成交量較高、收盤位置較強的標的。<br><b>失效條件：</b>跌破估算停損 ${fmt(stop)}，此短線交易假設失效。</div>
+<div class="tags"><span class="tag">TWSE</span><span class="tag">量價</span><span class="tag">流動性</span><span class="tag">R:R 過濾</span></div></div>`}
+async function scan(){ $('rrs').textContent=$('rr').value;$('status').textContent='正在讀取 TWSE 最新上市行情…';$('results').innerHTML='<div class="panel empty">掃描中…</div>';
+try{let res=await fetch(API,{cache:'no-store'});if(!res.ok)throw new Error('HTTP '+res.status);let raw=await res.json();let a=raw.map(normalize).filter(x=>x.code&&x.close>5&&x.open&&x.high>x.low&&x.vol>300000);a.sort((a,b)=>score(b)-score(a)||b.vol-a.vol);let top=a.slice(0,5);if(!top.length)throw new Error('沒有可用行情');$('results').innerHTML=top.map(card).join('');$('status').textContent=`完成：從 ${a.length} 檔符合基本流動性條件的上市股票中，顯示量價分數前 5 名。`;
+}catch(e){$('results').innerHTML=`<div class="panel"><div class="name">無法直接取得 TWSE 行情</div><div class="reason" style="margin-top:10px">原因：${String(e.message||e)}。這通常是瀏覽器跨來源限制或資料端暫時無回應。V3 不會因此填入假價格；下一版可用 Supabase Edge Function / 後端代理解決。</div></div>`;$('status').textContent='行情讀取失敗，未產生交易點子。';}}
+$('rr').onchange=()=> $('rrs').textContent=$('rr').value;
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');
+try{let p=JSON.parse(localStorage.getItem('v3prefs'));if(p){$('scope').value=p.scope||'全上市';$('period').value=p.period||'短波段 2–10日';$('rr').value=p.rr||'2.0';$('rrs').textContent=$('rr').value}}catch(e){}
 </script></body></html>
