@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>交易點子生成器</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b0f14"><link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#0b0f14;--card:#121821;--card2:#171f2b;--text:#eef3f8;--muted:#91a0b2;--line:#263244;--accent:#7dd3fc;--good:#5ee09a;--bad:#ff7b86;--warn:#f6c85f}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#081019,#0b0f14);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}
+.wrap{max-width:1100px;margin:auto;padding:20px}.hero{display:flex;justify-content:space-between;gap:16px;align-items:end;margin:8px 0 18px}
+h1{margin:0;font-size:28px}.sub{color:var(--muted);margin-top:7px}.badge{padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--accent);font-size:13px}
+.panel{background:rgba(18,24,33,.94);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 12px 35px #0005}
+.grid{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr;gap:10px}label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px}
+input,select,textarea,button{width:100%;border-radius:11px;border:1px solid var(--line);background:#0d141d;color:var(--text);padding:12px;font-size:14px}
+button{cursor:pointer;font-weight:800;background:linear-gradient(135deg,#0ea5e9,#2563eb);border:0}.secondary{background:#172231;border:1px solid var(--line)}
+.actions{display:grid;grid-template-columns:1fr 180px;gap:10px;margin-top:12px}.status{margin:14px 0 0;color:var(--muted);font-size:13px}
+.market{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.stat{background:var(--card2);border:1px solid var(--line);padding:13px;border-radius:14px}.stat b{display:block;font-size:18px;margin-top:4px}
+.cards{display:grid;gap:12px}.idea{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.rank{display:flex;gap:10px;align-items:center}.num{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#20304a;color:var(--accent);font-weight:900}
+.side{font-weight:900}.long{color:var(--good)}.short{color:var(--bad)}
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:13px 0}.level{background:#0d141d;padding:10px;border-radius:11px;border:1px solid #202b3b}.level span{display:block;color:var(--muted);font-size:11px}.level b{font-size:15px}
+.reason{color:#cbd5e1;line-height:1.65;font-size:14px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.tag{font-size:11px;padding:5px 8px;border-radius:999px;background:#182435;color:#b9c8da}
+.note{margin-top:16px;padding:12px 14px;border-radius:12px;background:#151c26;border:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.6}
+@media(max-width:760px){.grid{grid-template-columns:1fr 1fr}.market{grid-template-columns:1fr 1fr}.levels{grid-template-columns:1fr 1fr}.hero{align-items:start;flex-direction:column}.actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<div class="hero"><div><h1>交易點子生成器</h1><div class="sub">市場掃描 → 技術面＋基本面 → 5 組候選交易計畫</div></div><div class="badge">Risk-first · 非投資保證</div></div>
+<div class="panel">
+ <div class="grid">
+  <div><label>掃描範圍</label><input id="scope" value="全台股" placeholder="例如：全台股、半導體、2330"></div>
+  <div><label>市場</label><select id="market"><option>台股</option><option>美股</option><option>加密貨幣</option></select></div>
+  <div><label>交易週期</label><select id="period"><option>短波段 2–10日</option><option>當沖</option><option>波段 2–8週</option></select></div>
+  <div><label>最低風報比</label><select id="rr"><option value="2">≥ 2.0</option><option value="2.5">≥ 2.5</option><option value="3">≥ 3.0</option></select></div>
+ </div>
+ <div class="actions"><button onclick="generatePrompt()">產生今日掃描指令</button><button class="secondary" onclick="copyPrompt()">複製指令</button></div>
+ <div class="status" id="status">網頁版會先產生完整掃描指令；即時行情與新聞分析需由可連網的 AI / 後端執行，避免用假資料冒充即時報價。</div>
+</div>
+
+<div class="market">
+ <div class="stat"><span>篩選數量</span><b>5 檔</b></div>
+ <div class="stat"><span>最低 R:R</span><b id="rrShow">2.0</b></div>
+ <div class="stat"><span>分析框架</span><b>技術＋基本</b></div>
+ <div class="stat"><span>風控</span><b>先停損後目標</b></div>
+</div>
+
+<div class="panel" style="margin-bottom:16px">
+<label>送給 AI / 後端的完整指令</label>
+<textarea id="prompt" rows="12"></textarea>
+</div>
+
+<div class="cards" id="cards"></div>
+<div class="note">重要：這個版本不會在瀏覽器內捏造「今日」行情。要做到按一下就真的掃描全台股並自動填入 5 檔，需要接行情資料源與 AI 分析端點；前端版型與輸出格式已先做好。</div>
+</div>
+<script>
+function promptText(){
+ const s=document.getElementById('scope').value.trim()||'全台股';
+ const m=document.getElementById('market').value, p=document.getElementById('period').value, rr=document.getElementById('rr').value;
+ return `掃描今天最新的${m}市場，針對「${s}」尋找 5 個條件最完整的交易機會，交易週期以「${p}」為主。
+
+不要把高勝率當成保證；請用客觀條件排序候選 setup，並排除流動性不足、消息來源不明、風險報酬比低於 ${rr}:1 的標的。
+
+每個交易機會必須包含：
+1. 股票代號與名稱
+2. 偏多／偏空
+3. 最新價格與資料時間
+4. 建議進場區間（不是單一神奇價位）
+5. 停損點與交易想法失效條件
+6. 第一目標價、第二目標價
+7. 以進場區間中值計算 R:R，最低 ${rr}:1
+8. 技術面理由：趨勢、均線、量價、支撐壓力、突破/回測型態
+9. 基本面理由：營收、獲利、產業趨勢、法說/公司展望與近期催化劑
+10. 主要風險：財報、事件、跳空、籌碼或大盤風險
+11. 對 setup 的信心只用「條件完整度」描述，不宣稱保證勝率
+
+最後以表格比較 5 檔：代號、方向、進場、停損、目標1、目標2、R:R、成立條件、失效條件。
+所有即時價格、財報與新聞都要附來源與日期；找不到可靠最新資料就明確標示，不可猜測。`;
+}
+function generatePrompt(){
+ document.getElementById('prompt').value=promptText();
+ document.getElementById('rrShow').textContent=document.getElementById('rr').value;
+ renderSkeleton();
+ document.getElementById('status').textContent='掃描指令已更新。可直接複製貼到 ChatGPT，或下一版接 API 後由按鈕直接執行。';
+}
+async function copyPrompt(){
+ if(!document.getElementById('prompt').value)generatePrompt();
+ await navigator.clipboard.writeText(document.getElementById('prompt').value);
+ document.getElementById('status').textContent='已複製完整掃描指令。';
+}
+function renderSkeleton(){
+ let h='';
+ for(let i=1;i<=5;i++)h+=`<div class="idea"><div class="top"><div class="rank"><div class="num">${i}</div><div><b>等待即時掃描結果</b><div style="color:var(--muted);font-size:12px">標的名稱 / 代號</div></div></div><div class="side">—</div></div>
+ <div class="levels"><div class="level"><span>進場區</span><b>—</b></div><div class="level"><span>停損</span><b>—</b></div><div class="level"><span>目標</span><b>—</b></div><div class="level"><span>R:R</span><b>—</b></div></div>
+ <div class="reason">接上即時行情與 AI 分析後，這裡會顯示技術面、基本面、催化劑與失效條件。</div><div class="tags"><span class="tag">趨勢</span><span class="tag">量價</span><span class="tag">基本面</span><span class="tag">風控</span></div></div>`;
+ document.getElementById('cards').innerHTML=h;
+}
+generatePrompt();
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));}
+</script></body></html>
